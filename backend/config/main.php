@@ -15,24 +15,15 @@ return [
     'components' => [
         'request' => [
             'csrfParam' => '_csrf-backend',
-            'cookieValidationKey' => $params['cookieValidationKey'],
         ],
         'user' => [
             'identityClass' => 'common\models\User',
             'enableAutoLogin' => true,
-            'identityCookie' => [
-                'name' => '_identity-backend',
-                'httpOnly' => true,
-                'domain' => $params['cookieDomain'],
-            ],
+            'identityCookie' => ['name' => '_identity-backend', 'httpOnly' => true],
         ],
         'session' => [
             // this is the name of the session cookie used for login on the backend
-            'name' => 'advanced',
-            'cookieParams' => [
-                'domain' => $params['cookieDomain'],
-                'httpOnly' => true,
-            ]
+            'name' => 'advanced-backend',
         ],
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,
@@ -46,22 +37,14 @@ return [
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],
-
-        'backendUrlManager' => require __DIR__ . '/urlManager.php',
-        'frontendUrlManager' => require __DIR__ . '/../../frontend/config/urlManager.php',
-        'urlManager' => function () {
-            return Yii::$app->get('backendUrlManager');
-        },
-    ],
-    'as access' => [
-        'class' => 'yii\filters\AccessControl',
-        'except' => ['site/login', 'site/error'],
-        'rules' => [
-            [
-                'allow' => true,
-                'roles' => ['@'],
+        /*
+        'urlManager' => [
+            'enablePrettyUrl' => true,
+            'showScriptName' => false,
+            'rules' => [
             ],
         ],
+        */
     ],
     'params' => $params,
 ];
